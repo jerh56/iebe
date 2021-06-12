@@ -13,12 +13,19 @@ const options = {
 };
 const connectWithRetry = () => {
     console.log('MongoDB connection with retry')
-    mongoose.connect("mongodb://localhost:27017/rest-tutorial", options).then(()=>{
+    mongoose.connect("mongodb+srv://admin:1j79ol4f@cluster0.8fpoz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", options).then(()=>{
         console.log('MongoDB is connected')
     }).catch(err=>{
         console.log('MongoDB connection unsuccessful, retry after 5 seconds. ', ++count);
         setTimeout(connectWithRetry, 5000)
     })
+
+    /*mongoose.connect("mongodb://localhost:27017/rest-tutorial", options).then(()=>{
+        console.log('MongoDB is connected')
+    }).catch(err=>{
+        console.log('MongoDB connection unsuccessful, retry after 5 seconds. ', ++count);
+        setTimeout(connectWithRetry, 5000)
+    })*/
 };
 
 connectWithRetry();
