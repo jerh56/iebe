@@ -1,5 +1,21 @@
 const http = require('http');
-let port = process.env.PORT;
+function normalizePort(val) {
+    var nport = parseInt(val, 10);
+  
+    if (isNaN(nport)) {
+      // named pipe
+      return val;
+    }
+  
+    if (nport >= 0) {
+      // port number
+      return nport;
+    }
+  
+    return false;
+  }
+//let port = process.env.PORT;
+let port = normalizePort(process.env.PORT || '3600');
 module.exports = {
     "port": port ,
     "appEndpoint": "http://localhost:`port`",
