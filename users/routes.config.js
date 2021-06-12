@@ -13,7 +13,7 @@ exports.routesConfig = function (app) {
     ]);
     app.get('/users', [
         ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(PAID),
+        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
         UsersController.list
     ]);
     app.get('/users/:userId', [
@@ -30,7 +30,7 @@ exports.routesConfig = function (app) {
     ]);
     app.delete('/users/:userId', [
         ValidationMiddleware.validJWTNeeded,
-        PermissionMiddleware.minimumPermissionLevelRequired(ADMIN),
+        PermissionMiddleware.minimumPermissionLevelRequired(FREE),
         UsersController.removeById
     ]);
 };
