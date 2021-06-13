@@ -6,7 +6,8 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
-    permissionLevel: Number
+    permissionLevel: Number,
+    skills: [String]
 });
 
 userSchema.virtual('id').get(function () {
@@ -28,6 +29,11 @@ const User = mongoose.model('Users', userSchema);
 exports.findByEmail = (email) => {
     return User.find({email: email});
 };
+
+exports.findBySkill = (skill) => {
+    return User.find({skills: {'$regex': '.*' + skill + '.*'} } );
+};
+
 exports.findById = (id) => {
     return User.findById(id)
         .then((result) => {
