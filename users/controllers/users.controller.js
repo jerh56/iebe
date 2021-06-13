@@ -27,6 +27,13 @@ exports.list = (req, res) => {
         })
 };
 
+exports.search = (req, res) => {
+    UserModel.findBySkill(req.query['skill'])
+        .then((result) => {
+            res.status(200).send(result);
+        });
+};
+
 exports.getById = (req, res) => {
     UserModel.findById(req.params.userId)
         .then((result) => {
