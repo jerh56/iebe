@@ -31,8 +31,10 @@ exports.findByEmail = (email) => {
   return User.find({ email: email });
 };
 
-exports.findBySkill = (skill) => {
-  return User.find({ skills: { $regex: ".*" + skill + ".*" } });
+exports.findBySkill = (skill, perPage, page) => {
+  return User.find({ skills: { $regex: ".*" + skill + ".*" } })
+    .limit(perPage)
+    .skip(perPage * page);
 };
 
 exports.findById = (id) => {

@@ -19,7 +19,7 @@ exports.insert = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  console.log(re.query);
+  console.log(req.query);
   let limit =
     req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10;
   let page = 0;
@@ -29,13 +29,14 @@ exports.list = (req, res) => {
       page = Number.isInteger(req.query.page) ? req.query.page : 0;
     }
   }
+  console.log(limit, page);
+  if (req.query.skills) {
+    UserModel.findBySkill(req.query.skills, limit, page).then((result) => {
+      res.status(200).send(result);
+    });
+    return;
+  }
   UserModel.list(limit, page).then((result) => {
-    res.status(200).send(result);
-  });
-};
-
-exports.search = (req, res) => {
-  UserModel.findBySkill(req.query["skill"]).then((result) => {
     res.status(200).send(result);
   });
 };
