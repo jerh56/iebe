@@ -1,4 +1,5 @@
-const mongoose = require("../../common/services/mongoose.service").mongoose;
+//const mongoose = require("../../common/services/mongoose.service").mongoose;
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -27,31 +28,31 @@ userSchema.findById = function (cb) {
 
 const User = mongoose.model("Users", userSchema);
 
-exports.findByEmail = (email) => {
+export function findByEmail(email) {
   return User.find({ email: email });
-};
+}
 
-exports.findBySkill = (skill, perPage, page) => {
+export function findBySkill(skill, perPage, page) {
   return User.find({ skills: { $regex: ".*" + skill + ".*" } })
     .limit(perPage)
     .skip(perPage * page);
-};
+}
 
-exports.findById = (id) => {
+export function findById(id) {
   return User.findById(id).then((result) => {
     result = result.toJSON();
     delete result._id;
     delete result.__v;
     return result;
   });
-};
+}
 
-exports.createUser = (userData) => {
+export function createUser(userData) {
   const user = new User(userData);
   return user.save();
-};
+}
 
-exports.list = (perPage, page) => {
+export function list(perPage, page) {
   return new Promise((resolve, reject) => {
     User.find()
       .limit(perPage)
@@ -64,18 +65,18 @@ exports.list = (perPage, page) => {
         }
       });
   });
-};
+}
 
-exports.patchUser = (id, userData) => {
+export function patchUser(id, userData) {
   return User.findOneAndUpdate(
     {
       _id: id,
     },
     userData
   );
-};
+}
 
-exports.removeById = (userId) => {
+export function removeById(userId) {
   return new Promise((resolve, reject) => {
     User.deleteMany({ _id: userId }, (err) => {
       if (err) {
@@ -85,4 +86,4 @@ exports.removeById = (userId) => {
       }
     });
   });
-};
+}

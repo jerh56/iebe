@@ -1,7 +1,7 @@
-const UserModel = require("../models/users.model");
-const crypto = require("crypto");
+import * as UserModel from "../models/users.model.js";
+import crypto from "crypto";
 
-exports.insert = (req, res) => {
+export function insert(req, res) {
   let salt = crypto.randomBytes(16).toString("base64");
   let hash = crypto
     .createHmac("sha512", salt)
@@ -16,9 +16,9 @@ exports.insert = (req, res) => {
     .catch((err) =>
       res.status(409).send({ error: `Error: ${err} - usuario ya registrado` })
     );
-};
+}
 
-exports.list = (req, res) => {
+export function list(req, res) {
   console.log(req.query);
   let limit =
     req.query.limit && req.query.limit <= 100 ? parseInt(req.query.limit) : 10;
@@ -39,14 +39,14 @@ exports.list = (req, res) => {
   UserModel.list(limit, page).then((result) => {
     res.status(200).send(result);
   });
-};
+}
 
-exports.getById = (req, res) => {
+export function getById(req, res) {
   UserModel.findById(req.params.userId).then((result) => {
     res.status(200).send(result);
   });
-};
-exports.patchById = (req, res) => {
+}
+export function patchById(req, res) {
   if (req.body.password) {
     let salt = crypto.randomBytes(16).toString("base64");
     let hash = crypto
@@ -59,10 +59,10 @@ exports.patchById = (req, res) => {
   UserModel.patchUser(req.params.userId, req.body).then((result) => {
     res.status(204).send({});
   });
-};
+}
 
-exports.removeById = (req, res) => {
+export function removeById(req, res) {
   UserModel.removeById(req.params.userId).then((result) => {
     res.status(204).send({});
   });
-};
+}

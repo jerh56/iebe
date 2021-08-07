@@ -1,13 +1,11 @@
-const config = require("./common/config/env.config.js");
-
-const express = require("express");
+import config from "./common/config/env.config.js";
+import express from "express";
+import bodyParser from "body-parser";
+import * as AuthorizationRouter from "./authorization/routes.config.js";
+import * as Users from "./users/routes.config.js";
 const app = express();
-const bodyParser = require("body-parser");
 
-const AuthorizationRouter = require("./authorization/routes.config");
-const UsersRouter = require("./users/routes.config");
-
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
@@ -25,7 +23,7 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 AuthorizationRouter.routesConfig(app);
-UsersRouter.routesConfig(app);
+Users.routesConfig(app);
 
 app.listen(config.port, function () {
   console.log("app listening at port %s", config.port);
